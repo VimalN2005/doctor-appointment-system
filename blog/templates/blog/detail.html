@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ post.title }}</title>
+</head>
+<body>
+  <h1>{{ post.title }}</h1>
+  <small>{{ post.created_at|date:"M d, Y" }}</small>
+
+  {% if post.video_url %}
+    <p><a href="{{ post.video_url }}" target="_blank">Watch Video</a></p>
+  {% endif %}
+
+  <div>
+    {{ post.body|linebreaks }}
+  </div>
+</body>
+</html>

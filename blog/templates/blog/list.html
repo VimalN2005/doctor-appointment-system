@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Health Blog</title>
+</head>
+<body>
+  <h1>Doctor Blog & Vlogs</h1>
+  {% for post in posts %}
+    <article>
+      <h2><a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a></h2>
+      <small>{{ post.created_at|date:"M d, Y" }}</small>
+      <p>{{ post.body|truncatechars:200 }}</p>
+    </article>
+  {% empty %}
+    <p>No posts yet.</p>
+  {% endfor %}
+</body>
+</html>

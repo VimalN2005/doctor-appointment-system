@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Doctor Appointment System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'clinic/styles.css' %}">
+</head>
+<body>
+  <header>
+    <h1>Doctor Appointment System</h1>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="/blog/">Blog</a>
+    </nav>
+  </header>
+
+  <section id="hero">
+    <h2>Your trusted doctor in town</h2>
+    <p>Book appointments, read health tips, and manage your visits easily.</p>
+  </section>
+
+  <section id="services">
+    <h2>Services</h2>
+    <div class="grid">
+      {% for service in services %}
+        <div class="card">
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.description }}</p>
+        </div>
+      {% empty %}
+        <p>No services added yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <h2>Testimonials</h2>
+    <div class="grid">
+      {% for t in testimonials %}
+        <article class="card">
+          <h3>{{ t.name }}</h3>
+          <p>{{ t.message }}</p>
+        </article>
+      {% empty %}
+        <p>No testimonials yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="appointment">
+    <h2>Book Appointment</h2>
+    <!-- Frontend form: you can later connect this to API or Django view -->
+    <form id="appointment-form">
+      <label>Name</label>
+      <input type="text" name="name" required />
+
+      <label>Phone</label>
+      <input type="text" name="phone" required />
+
+      <label>Preferred Date</label>
+      <input type="date" name="preferred_date" required />
+
+      <label>Message</label>
+      <textarea name="message" rows="3"></textarea>
+
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <script src="{% static 'clinic/script.js' %}"></script>
+</body>
+</html>
+
+<body>
+  <header class="topbar">
+    <div class="container">
+      <h1>Doctor Appointment System</h1>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container main-grid">
+      <section class="info">
+        <h2>Your trusted doctor in town</h2>
+        <p>Book appointments, track health, and manage your visits easily.</p>
+
+        <h3>Services</h3>
+        <!-- services list here -->
+
+        <h3>Testimonials</h3>
+        <!-- testimonials list here -->
+      </section>
+
+      <section class="appointment-card">
+        <h2>Book Appointment</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn">Send</button>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctor Appointment System</title>
+  <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+</head>
+<body>
+  <!-- Top navigation -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="logo">
+        <span class="logo-title">Doctor Appointment System</span>
+        <span class="logo-subtitle">Your trusted doctor in town</span>
+      </div>
+      <nav class="nav">
+        <a href="#services">Services</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero + appointment -->
+  <main class="main">
+    <div class="container main-grid">
+      <!-- Left: info -->
+      <section class="hero">
+        <h1>Book your appointment with ease</h1>
+        <p class="hero-text">
+          Schedule visits, manage your health records, and stay connected with your doctor.
+        </p>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h2 id="services">Services</h2>
+            {% if services %}
+              <ul>
+                {% for s in services %}
+                  <li>
+                    <strong>{{ s.title }}</strong><br>
+                    <span>{{ s.description }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="muted">No services added yet.</p>
+            {% endif %}
+          </div>
+
+          <div class="info-card">
+            <h2 id="testimonials">Testimonials</h2>
+            {% if testimonials %}
+              {% for t in testimonials %}
+                <article class="testimonial">
+                  <p>"{{ t.message }}"</p>
+                  <span class="testimonial-name">— {{ t.name }}</span>
+                </article>
+              {% endfor %}
+            {% else %}
+              <p class="muted">No testimonials yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: appointment card centered -->
+      <section class="appointment-card">
+        <h2>Book Appointment</h2>
+        <p class="appointment-sub">Fill the form to request an appointment.</p>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="form-row">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+          </div>
+          <div class="form-row">
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+          </div>
+          <div class="form-row">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+          </div>
+          <div class="form-row">
+            {{ form.service.label_tag }}
+            {{ form.service }}
+          </div>
+          <div class="form-row">
+            {{ form.preferred_date.label_tag }}
+            {{ form.preferred_date }}
+          </div>
+          <div class="form-row">
+            {{ form.message.label_tag }}
+            {{ form.message }}
+          </div>
+
+          <button type="submit" class="btn-primary">Submit</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© {{ now|date:"Y" }} Doctor Appointment System</span>
+      <span>Built with Django</span>
+    </div>
+  </footer>
+</body>
+</html>
